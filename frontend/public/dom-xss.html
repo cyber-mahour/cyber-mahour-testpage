@@ -1,0 +1,26 @@
+<!doctype html><html><head><meta charset="utf-8"><title>DOM XSS demo</title>
+<style>
+  body{font-family:system-ui,sans-serif;background:#0f1214;color:#d5dae0;margin:0;padding:16px}
+  #greeting{padding:10px;background:#1e2226;border-radius:6px;min-height:20px}
+  .secure #greeting *{all:unset}
+</style></head>
+<body id="body">
+  <p>This standalone page reads a name from the URL and greets you. Try changing the URL after <code>#</code> at the top of your browser.</p>
+  <div id="greeting"></div>
+<script>
+  // VULNERABLE by default: document.write / innerHTML built from location.hash,
+  // never sent to or from the server, which is what makes this DOM-based rather
+  // than reflected. Add &secure=1 to the URL to see the fixed version.
+  function render() {
+    var hash = decodeURIComponent(location.hash.slice(1));
+    var secure = /secure=1/.test(location.search);
+    document.body.className = secure ? "secure" : "";
+    var name = hash.replace(/&secure=1/, "") || "friend";
+    var el = document.getElementById("greeting");
+    if (secure) { el.textContent = "Hello, " + name; }
+    else { el.innerHTML = "Hello, " + name; } // VULNERABLE: untrusted hash -> innerHTML
+  }
+  window.addEventListener("hashchange", render);
+  render();
+</script>
+</body></html>
