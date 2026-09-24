@@ -1,6 +1,6 @@
 # Cyber Mahour
 
-**A local-only, intentionally vulnerable web app for cybersecurity training and YouTube tutorials.**
+**A local-only, intentionally vulnerable web app for cybersecurity training and YouTube tutorials. And this content is stictly for educational purposes only**
 Built alongside [@CyberMahour](https://www.youtube.com/@CyberMahour).
 
 > ## ⚠️ READ BEFORE RUNNING
